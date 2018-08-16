@@ -26,7 +26,7 @@ class App extends Component {
           login={login}
           logout={logout}
         />
-        <CreateGif />
+        <CreateGif isAuthenticated={isAuthenticated} login={login} />
         <BattleGifs />
         <Leaderboard />
       </Fragment>

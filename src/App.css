@@ -1,0 +1,23 @@
+.gif-container {
+  position: relative;
+  text-align: center;
+  background: #222;
+  border-radius: 5px;
+}
+
+.caption {
+  font-family: 'Bowlby One SC', sans-serif;
+  font-size: 40px;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  color: #fff;
+  text-shadow: 0 0 10px #000;
+  line-height: 1;
+  word-break: break-all;
+}
+
+.button {
+  width: 100%;
+}

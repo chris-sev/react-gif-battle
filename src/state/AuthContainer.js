@@ -3,6 +3,7 @@ import auth0 from 'auth0-js';
 
 class AuthContainer extends Container {
   state = { isAuthenticated: null };
+
   auth0 = new auth0.WebAuth({
     domain: 'adobot.auth0.com',
     clientID: 'E7v0bIDB2bM4ICfIgbWPbe6J6T54hsiT',
