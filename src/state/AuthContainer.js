@@ -8,7 +8,7 @@ class AuthContainer extends Container {
     domain: 'adobot.auth0.com',
     clientID: 'E7v0bIDB2bM4ICfIgbWPbe6J6T54hsiT',
     redirectUri: 'http://localhost:3000/callback',
-    audience: 'https://adobot.auth0.com/userinfo',
+    audience: 'gifbattle',
     responseType: 'token id_token',
     scope: 'openid'
   });
