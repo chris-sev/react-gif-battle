@@ -2,60 +2,73 @@ import { Container } from 'unstated';
 import auth0 from 'auth0-js';
 
 class AuthContainer extends Container {
-  state = {
-    user: null,
-    isLoggedIn: null
-  };
-
+  state = { isAuthenticated: null };
   auth0 = new auth0.WebAuth({
     domain: 'adobot.auth0.com',
-    clientID: '4rHNdgYhvnt4SIysKQFyPYeIY5INuHQg',
-    redirectUri: 'https://pdx-complete.stackblitz.io/',
-    audience: `beerme`,
+    clientID: 'E7v0bIDB2bM4ICfIgbWPbe6J6T54hsiT',
+    redirectUri: 'http://localhost:3000/callback',
+    audience: 'https://adobot.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid'
   });
 
+  /**
+   * Log a user in by redirecting them to the auth0 hosted login page
+   */
   login = () => this.auth0.authorize();
 
+  /**
+   * Check to see if were logged in first.
+   * Also check to see if the url has a hash. Parse it for auth stuff like token
+   */
   handleAuthentication = () => {
+    this.updateAuthentication();
+
     this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-        window.history.pushState(
-          '',
-          document.title,
-          window.location.pathname + window.location.search
+      if (err)
+        return alert(
+          `Error: ${err.error}. Check the console for further details.`
         );
-        window.location.reload();
-      } else if (err) {
-        alert(`Error: ${err.error}. Check the console for further details.`);
+
+      if (authResult) {
+        this.setSession(authResult);
+        window.location.hash = '';
       }
     });
   };
 
+  /**
+   * Set when the session will expire
+   * Set all things in localStorage
+   */
   setSession = authResult => {
-    // Set the time that the access token will expire at
     let expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     );
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+    this.updateAuthentication();
   };
 
+  /**
+   * Clear all things from localStorage
+   */
   logout = () => {
-    // Clear access token and ID token from local storage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    this.updateAuthentication();
   };
 
-  isAuthenticated = () => {
-    // Check whether the current time is past the
-    // access token's expiry time
+  /**
+   * Check whether the current time is past the access token's expiry time
+   */
+  updateAuthentication = () => {
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
+    this.setState({
+      isAuthenticated: new Date().getTime() < expiresAt
+    });
   };
 }
 

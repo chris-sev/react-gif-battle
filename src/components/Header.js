@@ -1,16 +1,10 @@
 import React from 'react';
 
-/**
- * Main header component
- */
-const Header = ({ user, login }) => (
+const Header = ({ isAuthenticated, login, logout }) => (
   <nav className="navbar is-dark">
     {/* logo */}
     <div className="navbar-brand">
-      <a
-        href="/"
-        className="navbar-item router-link-exact-active router-link-active"
-      >
+      <a className="navbar-item router-link-exact-active router-link-active">
         GIPHY BATTLE 🙈🙉🙊🐵
       </a>
     </div>
@@ -18,8 +12,10 @@ const Header = ({ user, login }) => (
     {/* links */}
     <div className="navbar-menu">
       <div className="navbar-end">
-        {user ? (
-          <a className="navbar-item">{user.name}</a>
+        {isAuthenticated ? (
+          <a className="navbar-item" onClick={logout}>
+            Logout
+          </a>
         ) : (
           <a className="navbar-item" onClick={login}>
             Login

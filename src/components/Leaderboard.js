@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-class CreatGif extends Component {
+class Leaderboard extends Component {
   state = {};
   render() {
     return <div />;
   }
 }
 
-export default CreatGif;
+export default Leaderboard;
